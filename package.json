@@ -16,6 +16,6 @@
   "license": "ISC",
   "dependencies": {
     "cosmetic": "^1.1.2",
-    "padstr": "0.0.2"
+    "padstr": "0.0.3"
   }
 }
