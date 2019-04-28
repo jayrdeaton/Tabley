@@ -18,8 +18,10 @@ const table = new Table([
     columnC: '3C'
   }
 ], {
+  title: 'Test',
   columns: [
-    { key: 'columnA', title: 'Column A', minimum_padding: 20, align: 'right' },
+    { key: 'columnA', title: 'Column A', minimum_padding: 20, align: 'left' },
+    'columnB',
     { key: 'columnC', title: 'C', value: (v) => cosmetic.green(v) }
   ],
   meta: [

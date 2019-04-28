@@ -1,5 +1,6 @@
 const cosmetic = require('cosmetic'),
   { left, right, stringLength } = require('padstr'),
+  Column = require('./Column'),
   { alignmentPadding } = require('../helpers');
 
 module.exports = class Table {
@@ -12,11 +13,8 @@ module.exports = class Table {
     // table title
     if (options.title) this.title = options.title;
     // columns option updates object and padding
-    if (options.columns) for (const column of options.columns) {
-      if (!column.title) column.title = column.key;
-      if (!column.padding) column.padding = stringLength(column.title);
-      if (column.minimum_padding && column.minimum_padding > column.padding) column.padding = column.minimum_padding;
-      if (!column.value) column.value = v => v;
+    if (options.columns) for (let column of options.columns) {
+      column = new Column(column);
       this.columns[column.key] = column;
     };
     for (const row of this.rows) for (const key of Object.keys(row)) {
@@ -24,12 +22,10 @@ module.exports = class Table {
         const { padding, value } = this.columns[key];
         if (padding < stringLength(value(row[key]))) this.columns[key].padding = stringLength(value(row[key]));
       } else {
-        this.columns[key] = {
+        this.columns[key] = new Column({
           key,
           padding: stringLength(key) > stringLength(row[key]) ? stringLength(key) : stringLength(row[key]),
-          title: key,
-          value: v => v
-        };
+        });
       };
     };
     // meta option updates padding
@@ -46,7 +42,7 @@ module.exports = class Table {
     // table.string
     this.string = '';
     // title
-    if (this.title) this.string += `${this.title}\n\n`;
+    if (this.title) this.string += `${alignmentPadding(this.align)(this.title, this.width)}\n\n`;
     // column header
     let header = '';
     for (const [index, key] of Object.keys(this.columns).entries()) {
@@ -86,5 +82,11 @@ module.exports = class Table {
   };
   print() {
     console.log(this.string);
+  };
+  get width() {
+    let width = 0;
+    for (const key of Object.keys(this.columns)) width += this.columns[key].padding + this.margin + 1;
+    --width;
+    return width;
   };
 };
