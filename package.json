@@ -1,0 +1,17 @@
+{
+  "name": "tabler",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "keywords": [
+    "terminal",
+    "cli",
+    "table",
+    "string"
+  ],
+  "author": "Jay Deaton",
+  "license": "ISC"
+}
