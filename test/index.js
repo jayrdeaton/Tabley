@@ -19,7 +19,8 @@ const table = new Table([
   }
 ], {
   columns: [
-    { key: 'columnA', title: 'Column A', minimum_padding: 20, align: 'right' }
+    { key: 'columnA', title: 'Column A', minimum_padding: 20, align: 'right' },
+    { key: 'columnC', title: 'C', value: (v) => cosmetic.green(v) }
   ],
   meta: [
     { columnA: 'meta' },

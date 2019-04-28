@@ -18,6 +18,8 @@ module.exports = class Table {
         };
       };
     };
+    // options
+    if (!options) options = {};
     // table title
     if (options.title) this.title = options.title;
     // columns option updates object and padding
@@ -53,7 +55,9 @@ module.exports = class Table {
       for (const [index, key] of Object.keys(this.columns).entries()) {
         const column = this.columns[key];
         const pad = column.align === 'right' || (!column.align && this.align === 'right') ? left : right;
-        this.string += `${pad(row[column.key], column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
+        let value = row[column.key] || '';
+        if (column.value) value = column.value(value);
+        this.string += `${pad(value, column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
       };
       this.string += '\n';
     };
@@ -64,7 +68,9 @@ module.exports = class Table {
         for (const [index, key] of Object.keys(this.columns).entries()) {
           const column = this.columns[key];
           const pad = column.align === 'right' || (!column.align && this.align === 'right') ? left : right;
-          this.string += `${pad(meta[column.key], column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
+          let value = meta[column.key] || '';
+          if (column.value) value = column.value(value);
+          this.string += `${pad(value, column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
         };
         if (index !== this.meta.length - 1) this.string += '\n';
       };
