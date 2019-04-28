@@ -8,5 +8,5 @@ module.exports = (align) => {
       return left;
     default:
       return right;
-  }
+  };
 };
