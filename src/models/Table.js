@@ -53,7 +53,7 @@ module.exports = class Table {
     };
     this.string += `${cosmetic.underline(header)}\n`;
     // rows
-    for (const row of this.rows) {
+    for (const [index, row] of this.rows.entries()) {
       for (const [index, key] of Object.keys(this.columns).entries()) {
         const column = this.columns[key];
         const pad = column.align === 'right' || (!column.align && this.align === 'right') ? left : right;
@@ -61,11 +61,11 @@ module.exports = class Table {
         if (column.value) value = column.value(value);
         this.string += `${pad(value, column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
       };
-      this.string += '\n';
+      if (index !== this.rows.length - 1) this.string += '\n';
     };
     // meta
     if (this.meta) {
-      this.string += '\n';
+      this.string += '\n\n';
       for (const [index, meta] of this.meta.entries()) {
         for (const [index, key] of Object.keys(this.columns).entries()) {
           const column = this.columns[key];
