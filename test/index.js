@@ -26,8 +26,9 @@ const table = new Table([
     { columnA: 'meta' },
     { columnC: 'metaC' }
   ],
-  align: 'right',
-  seperator: cosmetic.red('|')
+  align: 'center',
+  seperator: cosmetic.red('|'),
+  margin: 5
 });
 
 table.print();

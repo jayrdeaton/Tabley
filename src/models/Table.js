@@ -1,5 +1,6 @@
 const cosmetic = require('cosmetic'),
-  { left, right, stringLength } = require('padstr');
+  { left, right, stringLength } = require('padstr'),
+  { alignmentPadding } = require('../helpers');
 
 module.exports = class Table {
   constructor(rows, options) {
@@ -39,7 +40,9 @@ module.exports = class Table {
     // vertical seperator
     if (options.seperator) this.seperator = options.seperator;
     // alignment
-    if (options.align) this.align = options.align;
+    this.align = options.align ? options.align : 'left';
+    // margin
+    this.margin = options.margin ? options.margin : 0;
     // table.string
     this.string = '';
     // title
@@ -48,18 +51,20 @@ module.exports = class Table {
     let header = '';
     for (const [index, key] of Object.keys(this.columns).entries()) {
       const column = this.columns[key];
-      const pad = column.align === 'right' || (!column.align && this.align === 'right') ? left : right;
-      header += `${pad(column.title, column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
+      const align = column.align ? column.align : this.align;
+      const pad = alignmentPadding(align);
+      header += `${pad(column.title, column.padding + this.margin)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
     };
     this.string += `${cosmetic.underline(header)}\n`;
     // rows
     for (const [index, row] of this.rows.entries()) {
       for (const [index, key] of Object.keys(this.columns).entries()) {
         const column = this.columns[key];
-        const pad = column.align === 'right' || (!column.align && this.align === 'right') ? left : right;
+        const align = column.align ? column.align : this.align;
+        const pad = alignmentPadding(align);
         let value = row[column.key] || '';
         if (column.value) value = column.value(value);
-        this.string += `${pad(value, column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
+        this.string += `${pad(value, column.padding + this.margin)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
       };
       if (index !== this.rows.length - 1) this.string += '\n';
     };
@@ -69,10 +74,11 @@ module.exports = class Table {
       for (const [index, meta] of this.meta.entries()) {
         for (const [index, key] of Object.keys(this.columns).entries()) {
           const column = this.columns[key];
-          const pad = column.align === 'right' || (!column.align && this.align === 'right') ? left : right;
+          const align = column.align ? column.align : this.align;
+          const pad = alignmentPadding(align);
           let value = meta[column.key] || '';
           if (column.value) value = column.value(value);
-          this.string += `${pad(value, column.padding)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
+          this.string += `${pad(value, column.padding + this.margin)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
         };
         if (index !== this.meta.length - 1) this.string += '\n';
       };
