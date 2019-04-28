@@ -7,6 +7,6 @@ module.exports = (align) => {
     case 'right':
       return left;
     default:
-      return left;
+      return right;
   }
 };
