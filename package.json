@@ -13,5 +13,9 @@
     "string"
   ],
   "author": "Jay Deaton",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cosmetic": "^1.1.2",
+    "padstr": "0.0.1"
+  }
 }
