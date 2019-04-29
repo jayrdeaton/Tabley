@@ -31,7 +31,7 @@ module.exports = class Table {
     // meta option updates padding
     if (options.meta) {
       this.meta = options.meta;
-      for (const meta of options.meta) for (const key of Object.keys(meta)) if (this.columns[key] && this.columns[key].padding < stringLength(meta[key])) this.columns[key].padding = stringLength(meta[key]);
+      for (const meta of options.meta) for (const key of Object.keys(meta)) if (this.columns[key] && this.columns[key].padding < stringLength(this.columns[key].value(meta[key]))) this.columns[key].padding = stringLength(this.columns[key].value(meta[key]));
     };
     // vertical seperator
     if (options.seperator) this.seperator = options.seperator;
