@@ -58,8 +58,9 @@ module.exports = class Table {
         const column = this.columns[key];
         const align = column.align ? column.align : this.align;
         const pad = alignmentPadding(align);
-        let value = row[column.key] || '';
-        if (column.value) value = column.value(value);
+        let value = row[column.key];
+        if (value === undefined || value === null) value = ''
+        value = column.value(value);
         this.string += `${pad(value, column.padding + this.margin)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
       };
       if (index !== this.rows.length - 1) this.string += '\n';
@@ -72,8 +73,9 @@ module.exports = class Table {
           const column = this.columns[key];
           const align = column.align ? column.align : this.align;
           const pad = alignmentPadding(align);
-          let value = meta[column.key] || '';
-          if (column.value) value = column.value(value);
+          let value = meta[column.key];
+          if (value === undefined || value === null) value = ''
+          value = column.value(value);
           this.string += `${pad(value, column.padding + this.margin)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`;
         };
         if (index !== this.meta.length - 1) this.string += '\n';
