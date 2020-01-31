@@ -31,7 +31,7 @@ const table = new Table([
     { columnA: 'meta' },
     { columnC: 'metaC' }
   ],
-  align: 'center',
+  align: Table.center,
   seperator: cosmetic.red('|'),
   margin: 5
 });

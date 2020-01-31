@@ -4,6 +4,15 @@ const cosmetic = require('cosmetic'),
   { alignmentPadding } = require('../helpers');
 
 module.exports = class Table {
+  static get left() {
+    return 'left'
+  }
+  static get center() {
+    return 'center'
+  }
+  static get right() {
+    return 'right'
+  }
   constructor(rows, options) {
     this.rows = rows;
     this.columns = {};
