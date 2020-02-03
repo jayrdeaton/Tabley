@@ -99,7 +99,7 @@ module.exports = class Table {
   }
   get width() {
     let width = 0
-    for (const key of Object.keys(this.columns)) width += this.columns[key].padding + this.margin + 1
+    for (const key of Object.keys(this.columns)) if (!this.columns[key].hidden) width += this.columns[key].padding + this.margin + 1
     --width
     return width
   }
