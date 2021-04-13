@@ -1,12 +1,12 @@
-const { center, left, right } = require('padstr');
+const { center, left, right } = require('padstr')
 
 module.exports = (align) => {
   switch (align) {
     case 'center':
-      return center;
+      return center
     case 'right':
-      return left;
+      return left
     default:
-      return right;
-  };
-};
+      return right
+  }
+}

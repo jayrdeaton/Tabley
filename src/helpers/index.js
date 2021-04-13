@@ -1,5 +1,5 @@
-const alignmentPadding = require('./alignmentPadding');
+const alignmentPadding = require('./alignmentPadding')
 
 module.exports = {
   alignmentPadding
-};
+}

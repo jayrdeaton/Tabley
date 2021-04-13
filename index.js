@@ -1,4 +1,4 @@
 const { models } = require('./src'),
-  { Table } = models;
+  { Table } = models
 
-module.exports = Table;
+module.exports = Table

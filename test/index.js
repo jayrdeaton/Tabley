@@ -1,5 +1,5 @@
 const Table = require('../'),
-  cosmetic = require('cosmetic');
+  cosmetic = require('cosmetic')
 
 const table = new Table([
   {
@@ -38,6 +38,6 @@ const table = new Table([
   align: Table.center,
   seperator: cosmetic.red('|'),
   margin: 5
-});
+})
 
-table.print();
+table.print()
