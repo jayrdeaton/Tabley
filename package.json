@@ -15,7 +15,7 @@
   "author": "Jay Deaton",
   "license": "ISC",
   "dependencies": {
-    "cosmetic": "^1.1.2",
+    "cosmetic": "^1.2.1",
     "padstr": "0.0.4"
   }
 }
