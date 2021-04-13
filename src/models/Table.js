@@ -22,20 +22,20 @@ module.exports = class Table {
     // table title
     if (options.title) this.title = options.title
     // columns option updates object and padding
-    if (options.columns) for (let column of options.columns) {
+    if (options.columns) for (let column of options.columns) if (!column.hidden) {
       column = new Column(column)
       this.columns[column.key] = column
     }
-    for (const row of this.rows) for (const key of Object.keys(row)) {
-      if (this.columns[key]) {
-        const { padding, value } = this.columns[key]
-        if (padding < stringLength(value(row[key]))) this.columns[key].padding = stringLength(value(row[key]))
-      } else {
-        this.columns[key] = new Column({
-          key,
-          padding: stringLength(key) > stringLength(row[key]) ? stringLength(key) : stringLength(row[key]),
-        })
-      }
+    for (const row of this.rows) for (const key of Object.keys(row)) if (Object.keys(this.columns).length) {
+      const column = this.columns[key]
+      if (!column) continue
+      const { padding, value } = column
+      if (padding < stringLength(value(row[key]))) this.columns[key].padding = stringLength(value(row[key]))
+    } else {
+      this.columns[key] = new Column({
+        key,
+        padding: stringLength(key) > stringLength(row[key]) ? stringLength(key) : stringLength(row[key]),
+      })
     }
     // meta option updates padding
     if (options.meta) {
@@ -56,7 +56,6 @@ module.exports = class Table {
     let header = ''
     for (const [index, key] of Object.keys(this.columns).entries()) {
       const column = this.columns[key]
-      if (column.hidden) continue
       const align = column.align ? column.align : this.align
       const pad = alignmentPadding(align)
       header += `${pad(column.title, column.padding + this.margin)}${index === Object.keys(this.columns).length - 1 ? '' : this.seperator}`
@@ -66,7 +65,6 @@ module.exports = class Table {
     for (const [index, row] of this.rows.entries()) {
       for (const [index, key] of Object.keys(this.columns).entries()) {
         const column = this.columns[key]
-        if (column.hidden) continue
         const align = column.align ? column.align : this.align
         const pad = alignmentPadding(align)
         let value = row[column.key]
@@ -82,7 +80,6 @@ module.exports = class Table {
       for (const [index, meta] of this.meta.entries()) {
         for (const [index, key] of Object.keys(this.columns).entries()) {
           const column = this.columns[key]
-          if (column.hidden) continue
           const align = column.align ? column.align : this.align
           const pad = alignmentPadding(align)
           let value = meta[column.key]
